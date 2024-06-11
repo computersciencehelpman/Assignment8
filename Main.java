@@ -34,13 +34,15 @@ public class Main {
         }
 
         Map<Integer, Integer> frequencyMap = new ConcurrentHashMap<>();
-        AtomicInteger index = new AtomicInteger(0);
+        AtomicInteger currentIndex = new AtomicInteger(0);
 
         // Using a thread pool with a fixed number of threads
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        int numberOfThreads = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
 
-        for (int i = 0; i <= 1000; i++) {
-            Assignment8 assignment8 = new Assignment8(numbers, index, frequencyMap);
+        int totalTasks = numbers.size();
+        for (int j = 0; j < numberOfThreads; j++) {
+            Assignment8 assignment8 = new Assignment8(numbers, currentIndex, frequencyMap);
             executor.execute(assignment8);
         }
 
@@ -60,7 +62,12 @@ public class Main {
     }
 
     public static void printFrequencies(Map<Integer, Integer> frequencyMap) {
-        frequencyMap.forEach((key, value) -> System.out.println("Element " + key + " occurs: " + value + " times"));
+        frequencyMap.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByKey())
+            .forEach(entry -> System.out.println("Element " + entry.getKey() + " occurs: " + entry.getValue() + " times"));
     }
 }
+
+
 

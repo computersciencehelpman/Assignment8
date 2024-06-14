@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Running");
 
-        List<Integer> numbers = null;
+        List<Integer> numbers;
         try {
             numbers = Files.readAllLines(Paths.get("output.txt"))
                     .stream()
@@ -40,7 +40,6 @@ public class Main {
         int numberOfThreads = Runtime.getRuntime().availableProcessors();
         ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
 
-        int totalTasks = numbers.size();
         for (int j = 0; j < numberOfThreads; j++) {
             Assignment8 assignment8 = new Assignment8(numbers, currentIndex, frequencyMap);
             executor.execute(assignment8);
@@ -56,9 +55,14 @@ public class Main {
         }
 
         System.out.println("Done");
-
-        // Print the frequencies after all threads are done
-        printFrequencies(frequencyMap);
+        //Ensure the frequencyMap is not null before attempting to print
+        if (frequencyMap != null && !frequencyMap.isEmpty()) {
+         // Print the frequencies after all threads are done
+        printFrequencies(frequencyMap);	
+        } else {
+        	System.out.println("No frequencies to display.");
+        }
+       
     }
 
     public static void printFrequencies(Map<Integer, Integer> frequencyMap) {
@@ -68,6 +72,3 @@ public class Main {
             .forEach(entry -> System.out.println("Element " + entry.getKey() + " occurs: " + entry.getValue() + " times"));
     }
 }
-
-
-

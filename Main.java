@@ -55,14 +55,14 @@ public class Main {
         }
 
         System.out.println("Done");
-        //Ensure the frequencyMap is not null before attempting to print
+
+        // Ensure the frequencyMap is not null before attempting to print
         if (frequencyMap != null && !frequencyMap.isEmpty()) {
-         // Print the frequencies after all threads are done
-        printFrequencies(frequencyMap);	
+            // Print the frequencies after all threads are done
+            printFrequencies(frequencyMap);
         } else {
-        	System.out.println("No frequencies to display.");
+            System.out.println("No frequencies to display.");
         }
-       
     }
 
     public static void printFrequencies(Map<Integer, Integer> frequencyMap) {
@@ -72,3 +72,4 @@ public class Main {
             .forEach(entry -> System.out.println("Element " + entry.getKey() + " occurs: " + entry.getValue() + " times"));
     }
 }
+
